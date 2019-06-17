@@ -26,11 +26,11 @@ class CryptographySigner(adb_protocol.AuthSigner):
 
     def __init__(self, rsa_key_path):
         with open(rsa_key_path + '.pub') as rsa_pub_file:
-            self.public_key = rsa_pub_file.read()
+            self.public_key = rsa_pub_file.read().encode()
 
         with open(rsa_key_path) as rsa_prv_file:
             self.rsa_key = serialization.load_pem_private_key(
-                    rsa_prv_file.read(), None, default_backend())
+                    rsa_prv_file.read().encode(), None, default_backend())
 
     def Sign(self, data):
         return self.rsa_key.sign(
